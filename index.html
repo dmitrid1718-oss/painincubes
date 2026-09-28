@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>Pain in Cubes</title>
+<meta name="description" content="A private, seven-day visualization experiment. Red cubes, gentle attention, and space to reflect.">
+<style>
+:root{--bg:#343638;--panel:#393b3d;--grid:#55585a;--healthy:#acd4ec;--bad:#ff3838;--bad2:#ff3838;--ivory:#ece8dc;--ink:#efeee8;--muted:#a4aaa4;--red:#df5b4d}
+*{box-sizing:border-box}html,body{margin:0;min-height:100%;background:var(--bg);color:var(--ink)}
+body{font-family:Arial,Helvetica,sans-serif}
+button,a{font:inherit}.hidden{display:none!important}
+.welcome{position:fixed;inset:0;z-index:20;background:var(--bg);overflow-y:auto;display:grid;place-items:start center;padding:28px}
+.card{margin:auto 0;width:min(650px,94vw);border:1px solid rgba(255,255,255,.15);padding:34px 34px 28px;background:rgba(255,255,255,.018)}
+.eyebrow{font:11px ui-monospace,monospace;letter-spacing:.18em;text-transform:uppercase;color:var(--muted);margin-bottom:18px}
+h1{font-family:Georgia,'Times New Roman',serif;font-weight:400;font-size:clamp(34px,6vw,54px);line-height:1;margin:0 0 18px}
+.card p{font-family:Georgia,'Times New Roman',serif;font-size:17px;line-height:1.62;color:#d0d3cc;margin:0 0 15px}
+.rules{border-top:1px solid rgba(255,255,255,.12);margin-top:22px;padding-top:19px;font-size:14px;line-height:1.65;color:#b5bab4}
+.science{margin-top:20px;padding:16px 18px;border-left:2px solid var(--healthy);background:rgba(185,195,164,.05);font-size:14px;line-height:1.6;color:#b9beb8}
+.disclaimer{font-size:14px!important;color:#8f948f!important;margin-top:18px!important}
+.primary{margin-top:20px;width:100%;border:0;background:var(--ivory);color:#222624;padding:14px 16px;cursor:pointer}
+.mothership{display:block;text-align:center;margin-top:18px;color:#aaa;text-decoration:none;font-size:12px}.mothership span{color:var(--red)}
+.stage{min-height:100vh;display:flex;flex-direction:column;align-items:center;padding:24px 18px 30px}
+.top{width:min(720px,94vw);display:flex;justify-content:space-between;gap:20px;align-items:center;color:var(--muted);font:11px ui-monospace,monospace;letter-spacing:.12em;text-transform:uppercase}
+.grid-wrap{flex:1;display:grid;place-items:center;width:100%;padding:24px 0}
+.grid{width:min(72vw,560px);aspect-ratio:1;display:grid;grid-template-columns:repeat(17,1fr);grid-template-rows:repeat(17,1fr);gap:4px;background:var(--grid);padding:4px;touch-action:none;user-select:none}
+.cell{background:#3b3e40;position:relative}
+.cell.bad{background:var(--bad);cursor:pointer;animation:hesitate 2.4s ease-in-out infinite}
+.cell.bad:nth-child(3n){animation-delay:.22s}.cell.bad:nth-child(5n){animation-delay:.47s}.cell.bad:nth-child(7n){animation-delay:.71s}
+.cell.clearing{animation:none;transform:scale(.78);opacity:.15;transition:transform .28s ease,opacity .28s ease}
+.cell.cleared{background:#3b3e40;opacity:.9}
+@keyframes hesitate{0%,82%,100%{opacity:.92;transform:scale(1)}87%{opacity:.72;transform:scale(.985)}91%{opacity:.96;transform:scale(1.01)}95%{opacity:.82;transform:scale(.995)}}
+.controls{width:min(720px,94vw);display:grid;grid-template-columns:1fr auto 1fr;align-items:center;gap:20px}
+.quote{font-family:Georgia,'Times New Roman',serif;font-size:14px;font-style:italic;color:#aeb5ab;line-height:1.45}
+.next{justify-self:end;border:1px solid rgba(255,255,255,.28);background:transparent;color:var(--ink);padding:10px 18px;cursor:pointer;min-width:98px}
+.next:disabled{opacity:.28;cursor:default}
+.counter{font:11px ui-monospace,monospace;color:#8e958f;letter-spacing:.12em}
+.pause{position:fixed;inset:0;display:grid;place-items:center;pointer-events:none;opacity:0;transition:opacity .45s ease;background:rgba(31,35,33,.18);font-family:Georgia,'Times New Roman',serif;font-style:italic;color:#c7cfbd}
+.pause.show{opacity:1}
+@media(max-width:620px){.card{padding:26px 22px}.grid{width:min(92vw,520px);gap:3px;padding:3px}.controls{grid-template-columns:1fr auto}.quote{grid-column:1 / 3;grid-row:2}.counter{display:none}}
+
+body{transition:background-color 2s ease}.stage{min-height:100svh}.grid,.cell{transition:background-color 2s ease}
+body.rest{background:#548db5}body.rest .grid{background:#689fc3}body.rest .cell{background:#548db5;opacity:1}
+body.rest .top,body.rest .quote,body.rest .counter,body.rest .mothership{color:#f3f7fa}
+#complete{background:#548db5}#complete .card{background:#376786}#complete .card p,#complete .eyebrow,#complete .rating p,#complete .scale-labels,#complete .mothership{color:#eff6fb}
+body.rest .next{border-color:#d5e6f1}.pause{background:transparent;color:#fff}.counter{font-size:14px}.top{font-size:12px}
+.rating{padding:0;margin:24px 0 0;border:0}.rating legend{font-size:16px;line-height:1.5;margin-bottom:12px}.scale{display:grid;grid-template-columns:repeat(10,1fr);gap:5px}.scale button{min-height:44px;padding:0;border:1px solid #85898c;background:transparent;color:#f4f4f4;cursor:pointer}.scale button[aria-pressed="true"]{background:#acd4ec;color:#182b38;border-color:#acd4ec}.scale-labels{display:flex;justify-content:space-between;gap:12px;font-size:12px;color:#c1c8cc;margin-top:8px}.rating p{font:14px/1.5 Arial,sans-serif;margin:12px 0 0;color:#bdc3c7}
+button:focus-visible,a:focus-visible{outline:3px solid #acd4ec;outline-offset:3px}.cell{border:0;padding:0;min-width:0;border-radius:0}.cell:disabled{opacity:1}.cell:focus-visible{outline:2px solid white;z-index:1}.primary{min-height:48px}
+@media(max-width:620px){.welcome{padding:16px}.card{width:100%;padding:24px 18px}.scale{grid-template-columns:repeat(5,1fr)}.counter{display:block}.controls{grid-template-columns:1fr auto}.counter{grid-row:1;grid-column:1}.next{grid-row:1;grid-column:2}.top{font-size:11px}.grid-wrap{padding:18px 0}}
+@media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div id="welcome" class="welcome">
+  <div class="card">
+    <div class="eyebrow" id="dayLabel">Seven-day guided imagery experiment</div>
+    <h1>Pain in Cubes</h1>
+    <p>Give your pain a temporary shape. Let the red cubes stand for what you are feeling, then remove them gently, one by one.</p>
+    <p>As each cube disappears, imagine a little more space around the sensation. When the form is clear, pause with the blue. There is nothing you need to force or achieve.</p>
+    <div class="rules"><strong>Return once a day for seven consecutive days.</strong><br>Twenty forms per session. You can stop at any time. This is an optional routine, not a treatment schedule.</div>
+    <div class="science"><strong>Why visualization?</strong><br>The inner image is part of the exercise: picture the red form as a symbol of your pain, and the blue as room to rest. Let the movement of your hand and your imagination happen together. You do not need to feel a change.</div>
+    <p class="disclaimer">For reflection only. These shapes are symbolic. This experiment has not been established as a pain treatment and does not diagnose, treat, or cure any condition. It does not replace medical care. Stop if uncomfortable; seek medical advice for new, severe, or worsening pain.</p>
+    <p class="disclaimer"><strong>Your reflection stays yours.</strong> We do not track your activity or collect, save, or send your pain ratings. No accounts, cookies, analytics, or progress records are used by this exercise. The hosting provider may process standard technical request logs.</p>
+    <fieldset class="rating"><legend>Before you begin: how strong is your pain?</legend><div id="beforeScale" class="scale"></div><div class="scale-labels"><span>1 · very mild</span><span>10 · strongest imaginable</span></div><p>Choose a number, or simply hold it in mind. Nothing is recorded.</p></fieldset>
+    <button id="begin" class="primary">Begin today's visualization</button>
+    <a class="mothership" href="https://uselessinstruments.com" target="_blank" rel="noopener">Useless Instruments <span>↗</span></a>
+  </div>
+</div>
+
+<main class="stage hidden" id="stage">
+  <div class="top"><span id="dayTop">Pain in Cubes</span><span>Delete with attention · pause when clear</span></div>
+  <div class="grid-wrap"><div id="grid" class="grid" aria-label="Abstract cube form for guided visualization"></div></div>
+  <div class="controls">
+    <div id="quote" class="quote"></div>
+    <div id="counter" class="counter">01 / 20</div>
+    <button id="next" class="next" disabled>Next</button>
+  </div>
+  <a class="mothership" href="https://uselessinstruments.com" target="_blank" rel="noopener">Useless Instruments <span>↗</span></a>
+</main>
+<div id="pause" class="pause" aria-live="polite">Leave a little space.</div>
+<section id="complete" class="welcome hidden" aria-labelledby="completeTitle"><div class="card">
+<div class="eyebrow">Twenty forms · a moment to reflect</div><h1 id="completeTitle" tabindex="-1">Notice what is here.</h1>
+<p>Take a quiet moment. How does your pain feel now? Less, more, or the same—there is no required result.</p>
+<fieldset class="rating"><legend>After your session: how strong is your pain?</legend><div id="afterScale" class="scale"></div><div class="scale-labels"><span>1 · very mild</span><span>10 · strongest imaginable</span></div><p>Reflect on your starting number. Neither rating is saved or sent.</p></fieldset>
+<p>Let this be enough for today. If you wish, return once a day for seven days.</p>
+<button id="done" class="primary">Finish</button><a class="mothership" href="https://uselessinstruments.com" target="_blank" rel="noopener">Useless Instruments <span>↗</span></a>
+</div></section>
+
+<script>
+(() => {
+const N=17;
+const quotes=[
+ 'Take your time.',
+ 'You do not have to force a change.',
+ 'One small touch at a time.',
+ 'There is room to pause.',
+ 'Let your hand move gently.',
+ 'You can stop whenever you need.',
+ 'Nothing to prove here.',
+ 'Let the empty space stay for a moment.',
+ 'Be as gentle with yourself as you can.',
+ 'Let this moment be enough.',
+ 'A little space. A little time.',
+ 'There is no perfect way to do this.',
+ 'Notice what is here, without judging it.',
+ 'It is okay if things feel the same.',
+ 'You set the pace.',
+ 'You do not need to finish everything.',
+ 'Rest here for a moment.',
+ 'Let the blue be somewhere to pause.',
+ 'No result is required.',
+ 'For now, this is enough.'
+];
+// First ten paths follow D's supplied sketch, read left to right, top to bottom.
+// The second ten are rotated variations until the second drawing sheet is supplied.
+const paths=[
+'M 43 22 C 27 15 18 38 37 42 C 64 50 70 20 45 16 C 12 8 6 49 31 55 C 49 61 78 48 78 70 C 78 84 43 81 22 80',
+'M 62 35 C 59 17 33 16 29 32 C 22 57 68 62 75 39 C 84 8 26 2 15 28 C 4 55 27 59 53 61 C 83 65 72 85 22 79',
+'M 25 18 C 76 -1 86 28 52 49 C 20 68 30 90 61 78 C 89 65 45 42 32 31 M 8 90 L 80 18',
+'M 73 19 C 21 1 14 21 40 43 C 82 77 52 94 24 78 C 1 63 47 46 66 36 M 24 22 L 87 90',
+'M 21 12 C 91 20 91 40 27 40 C 3 42 12 57 58 57 C 98 59 77 72 28 70 C 9 70 6 92 81 87',
+'M 76 15 C 7 -1 6 37 45 37 C 95 35 85 55 30 54 C 0 54 11 71 54 71 C 87 72 84 92 16 90',
+'M 50 5 L 50 95 M 7 50 L 94 50 M 20 20 C 32 55 65 65 77 86 M 17 84 C 50 68 63 37 82 16',
+'M 50 8 A 42 42 0 1 1 49.9 8 M 50 27 A 23 23 0 1 1 49.9 27 M 50 44 A 6 6 0 1 1 49.9 44',
+'M 48 43 C 71 56 78 29 52 25 C 20 18 18 63 44 71 C 73 82 97 46 85 25 C 59 -5 5 7 8 48 C 9 86 57 105 87 77',
+'M 53 56 C 26 65 34 33 60 42 C 91 55 67 88 40 78 C 9 66 8 28 36 23 C 72 16 99 66 79 88 C 61 108 21 99 19 81'
+];
+function rasterize(d){
+ const svg=document.createElementNS('http://www.w3.org/2000/svg','svg');
+ const path=document.createElementNS(svg.namespaceURI,'path');path.setAttribute('d',d);svg.appendChild(path);
+ const pts=new Set(), length=path.getTotalLength();
+ for(let i=0;i<=length;i+=.3){const p=path.getPointAtLength(i);const x=Math.max(1,Math.min(15,Math.round(p.x*.13+1.5))),y=Math.max(1,Math.min(15,Math.round(p.y*.13+1.5)));pts.add(x+','+y)}
+ return pts;
+}
+const firstTen=paths.map(rasterize);
+const patterns=[...firstTen,...firstTen.map(p=>new Set([...p].map(k=>{const[x,y]=k.split(',').map(Number);return (16-x)+','+(16-y)})))];
+const grid=document.getElementById('grid'), next=document.getElementById('next');
+const counter=document.getElementById('counter'), quote=document.getElementById('quote'), pause=document.getElementById('pause');
+let index=0, dragging=false, remaining=0;
+for(let i=0;i<N*N;i++){const c=document.createElement('button');c.type='button';c.className='cell';c.dataset.i=i;c.disabled=true;c.setAttribute('aria-label','Empty cube');grid.appendChild(c)}
+const cells=[...grid.children];
+
+for(const id of ['beforeScale','afterScale']){
+ const scale=document.getElementById(id);
+ for(let n=1;n<=10;n++){const b=document.createElement('button');b.type='button';b.textContent=n;b.setAttribute('aria-label','Pain '+n+' out of 10');b.setAttribute('aria-pressed','false');b.onclick=()=>{scale.querySelectorAll('button').forEach(x=>x.setAttribute('aria-pressed','false'));b.setAttribute('aria-pressed','true')};scale.appendChild(b)}
+}
+function resetRatings(){document.querySelectorAll('.scale button').forEach(b=>b.setAttribute('aria-pressed','false'))}
+document.getElementById('begin').onclick=()=>{
+  document.getElementById('welcome').classList.add('hidden');
+  document.getElementById('stage').classList.remove('hidden');
+  resetRatings();
+  show(index);
+};
+function show(i){
+  next.disabled=true;pause.classList.remove('show');document.body.classList.remove('rest');
+  next.textContent=i===19?'Reflect':'Next';
+  cells.forEach(c=>{c.className='cell';c.disabled=true;c.setAttribute('aria-label','Empty cube')});
+  patterns[i].forEach(k=>{
+    const [x,y]=k.split(',').map(Number);
+    cells[y*N+x].classList.add('bad');cells[y*N+x].disabled=false;cells[y*N+x].setAttribute('aria-label','Remove red cube, row '+(y+1)+', column '+(x+1));
+  });
+  remaining=grid.querySelectorAll('.bad').length;
+  counter.textContent=String(i+1).padStart(2,'0')+' / 20';
+  quote.textContent=quotes[i%quotes.length];
+}
+function clearCell(c){
+  if(!c.classList.contains('bad')||c.classList.contains('clearing')) return;
+  c.classList.add('clearing');
+  setTimeout(()=>{
+    c.className='cell cleared';
+    remaining--;
+    c.disabled=true;c.setAttribute('aria-label','Cleared cube');
+    if(remaining===0) finish();
+  },280);
+}
+function finish(){
+  dragging=false;document.body.classList.add('rest');pause.classList.add('show');
+  setTimeout(()=>{pause.classList.remove('show');next.disabled=false},2000);
+}
+grid.addEventListener('pointerdown',e=>{dragging=true;if(e.target.classList.contains('cell'))grid.setPointerCapture?.(e.pointerId);clearCell(e.target)});
+grid.addEventListener('pointermove',e=>{
+  if(!dragging)return;
+  const el=document.elementFromPoint(e.clientX,e.clientY);
+  if(el&&el.classList.contains('cell'))clearCell(el);
+});
+window.addEventListener('pointerup',()=>dragging=false);
+window.addEventListener('pointercancel',()=>dragging=false);
+grid.addEventListener('click',e=>clearCell(e.target));
+next.onclick=()=>{
+ if(index===19){document.getElementById('stage').classList.add('hidden');document.getElementById('complete').classList.remove('hidden');document.getElementById('completeTitle').focus();return}
+ index++;show(index);
+};
+document.getElementById('done').onclick=()=>{
+ resetRatings();index=0;document.body.classList.remove('rest');document.getElementById('complete').classList.add('hidden');document.getElementById('welcome').classList.remove('hidden');document.getElementById('begin').focus();
+};
+})();
+</script>
+</body>
+</html>
