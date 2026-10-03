@@ -56,6 +56,10 @@ button:focus-visible,a:focus-visible{outline:3px solid #acd4ec;outline-offset:3p
 .ui-research-support a:focus-visible{outline:2px solid currentColor;outline-offset:5px}
 .ui-research-support span{color:inherit;font-size:14px;line-height:1.5;opacity:.72}
 @media print{.ui-research-support{display:none}}
+
+.welcome:has(.ui-research-support){overflow-y:auto;place-items:safe center}
+.setup:has(.ui-research-support){overflow-y:auto;align-items:safe center}
+.welcome:has(.ui-research-support) .card,.setup:has(.ui-research-support) .card{max-width:100%;flex-shrink:0}
 </style>
 </head>
 <body>
