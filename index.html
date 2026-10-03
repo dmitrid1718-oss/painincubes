@@ -48,6 +48,14 @@ body.rest .next{border-color:#d5e6f1}.pause{background:transparent;color:#fff}.c
 button:focus-visible,a:focus-visible{outline:3px solid #acd4ec;outline-offset:3px}.cell{border:0;padding:0;min-width:0;border-radius:0}.cell:disabled{opacity:1}.cell:focus-visible{outline:2px solid white;z-index:1}.primary{min-height:48px}
 @media(max-width:620px){.welcome{padding:16px}.card{width:100%;padding:24px 18px}.scale{grid-template-columns:repeat(5,1fr)}.counter{display:block}.controls{grid-template-columns:1fr auto}.counter{grid-row:1;grid-column:1}.next{grid-row:1;grid-column:2}.top{font-size:11px}.grid-wrap{padding:18px 0}}
 @media(prefers-reduced-motion:reduce){*,*::before,*::after{animation:none!important;transition:none!important}}
+
+/* Optional research support */
+.ui-research-support{box-sizing:border-box;position:relative;display:flex;flex-wrap:wrap;align-items:center;justify-content:space-between;gap:8px 20px;max-width:100%;margin:28px 0 0;padding:16px 0;border-top:1px solid rgba(255,255,255,.16);color:inherit;font-family:inherit;font-size:14px;line-height:1.5;text-transform:none;letter-spacing:normal;text-align:left}
+.ui-research-support a{display:inline-block;width:auto;min-height:24px;margin:0;padding:2px 0;position:static;background:none;border:0;border-bottom:1px solid currentColor;border-radius:0;color:inherit;font-family:inherit;font-size:14px;font-weight:500;line-height:1.5;text-transform:none;letter-spacing:normal;text-decoration:none;white-space:normal}
+.ui-research-support a:hover{opacity:.8}
+.ui-research-support a:focus-visible{outline:2px solid currentColor;outline-offset:5px}
+.ui-research-support span{color:inherit;font-size:14px;line-height:1.5;opacity:.72}
+@media print{.ui-research-support{display:none}}
 </style>
 </head>
 <body>
@@ -65,6 +73,7 @@ button:focus-visible,a:focus-visible{outline:3px solid #acd4ec;outline-offset:3p
     <button id="begin" class="primary">Begin today's visualization</button>
     <a class="mothership" href="https://uselessinstruments.com" target="_blank" rel="noopener">Useless Instruments <span>↗</span></a>
 <div style="max-width:550px;text-align:center;margin:16px auto 0;font-size:14px;line-height:1.6"><a href="mailto:hello@uselessinstruments.com?subject=Pain%20in%20Cubes%20feedback" style="color:inherit;text-underline-offset:3px">Share feedback with Useless Instruments</a><p style="font:inherit;color:inherit;margin:6px 0 0">Optional. Email shares your email address and message with us. Your pain ratings are never attached automatically.</p></div>
+<aside class="ui-research-support" aria-label="Optional research support"><a href="https://www.paypal.com/ncp/payment/URD6UTHYRKD9N" target="_blank" rel="noopener noreferrer">Support the research</a><span>Optional · $1 · $2 · $5 · $10 · $100</span></aside>
   </div>
 </div>
 
